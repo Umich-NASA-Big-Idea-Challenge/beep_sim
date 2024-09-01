@@ -23,3 +23,4 @@ RUN sudo apt-get install -y ignition-fortress
 
 # Install other needed packages
 RUN sudo apt install -y git
+RUN sudo apt install -y python3
