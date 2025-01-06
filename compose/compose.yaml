@@ -1,0 +1,43 @@
+name: simulation
+services:
+    # ros:
+    #     networks:
+    #         - ros
+    #     container_name: roscore
+    #     image: osrf/ros:humble-desktop-full
+    #     command: roscore
+    ros-gazebo-desktop:
+        stdin_open: true
+        tty: true
+        volumes:
+            - ./volume:/root
+        container_name: g-ros
+        # networks:
+        #     - ros
+        environment:
+            - DISPLAY=novnc:0.0
+            # - ROS_MASTER_URI=http://roscore:11311
+        build: .
+        #image: ros-gazebo-desktop
+        command: bash
+    novnc:
+        stdin_open: true
+        tty: true
+        # networks:
+        #     - ros
+        environment:
+            - DISPLAY_WIDTH=1400
+            - DISPLAY_HEIGHT=850
+            - RUN_XTERM=no
+        container_name: novnc
+        ports:
+            - 8080:8080
+        image: theasp/novnc:latest
+# networks:
+#     ros:
+#         external: true
+#         name: ros
+volumes:
+    volume:
+        external: true
+        name: volume
