@@ -6,7 +6,7 @@ services:
     #     container_name: roscore
     #     image: osrf/ros:humble-desktop-full
     #     command: roscore
-    ros-gazebo-desktop:
+    ros-gazebo:
         stdin_open: true
         tty: true
         volumes:

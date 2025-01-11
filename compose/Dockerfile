@@ -1,4 +1,3 @@
-# This is an auto generated Dockerfile for ros:desktop-full
 # generated from docker_images_ros2/create_ros_image.Dockerfile.em
 FROM osrf/ros:humble-desktop-jammy
 
@@ -24,6 +23,3 @@ RUN sudo apt-get install -y ignition-fortress
 # Install other needed packages
 RUN sudo apt install -y git
 RUN sudo apt install -y python3
-
-# clone the repo
-RUN sudo git clone git@github.com:Umich-NASA-Big-Idea-Challenge/gazebo_beep.git
