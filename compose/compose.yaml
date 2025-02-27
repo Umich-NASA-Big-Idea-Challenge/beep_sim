@@ -1,42 +1,44 @@
 name: simulation
 services:
-    # ros:
-    #     networks:
-    #         - ros
-    #     container_name: roscore
-    #     image: osrf/ros:humble-desktop-full
-    #     command: roscore
     ros-gazebo:
         stdin_open: true
         tty: true
         volumes:
             - ./volume:/root
+            - ${SSH_AUTH_SOCK:-/dev/null}:/ssh-agent #this should allow you to push to github using your computers ssh keys
         container_name: g-ros
-        # networks:
-        #     - ros
         environment:
             - DISPLAY=novnc:0.0
-            # - ROS_MASTER_URI=http://roscore:11311
-        build: .
-        #image: ros-gazebo-desktop
+            - SSH_AUTH_SOCK=/ssh-agent
+            - DOCKER_BUILDKIT=1
+        build:
+            # ssh:
+            #     - default
+            context: .
+        depends_on:
+            novnc:
+                condition: service_healthy
+        entrypoint: /entrypoint.sh
         command: bash
+
     novnc:
         stdin_open: true
         tty: true
-        # networks:
-        #     - ros
         environment:
             - DISPLAY_WIDTH=1400
-            - DISPLAY_HEIGHT=850
+            - DISPLAY_HEIGHT=650
             - RUN_XTERM=no
         container_name: novnc
         ports:
             - 8080:8080
         image: theasp/novnc:latest
-# networks:
-#     ros:
-#         external: true
-#         name: ros
+        healthcheck:
+            test: ["CMD", "wget", "--spider", "-q", "http://localhost:8080"]
+            interval: 1.5s
+            timeout: 1.5s
+            retries: 3
+
+
 volumes:
     volume:
         external: true
