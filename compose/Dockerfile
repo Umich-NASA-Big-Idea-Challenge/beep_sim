@@ -19,10 +19,10 @@ RUN sudo curl https://packages.osrfoundation.org/gazebo.gpg --output /usr/share/
 
 RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/pkgs-osrf-archive-keyring.gpg] http://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/gazebo-stable.list > /dev/null
 
-RUN sudo apt-get update && sudo apt-get install -y ignition-fortress
+RUN sudo apt-get update && sudo apt-get install -y ignition-fortress libgz-sim6-dev libgz-sim6
 
 # Install other needed packages
-RUN sudo apt install -y git python3
+RUN sudo apt install -y git python3 pip
 
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
