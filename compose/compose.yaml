@@ -25,8 +25,9 @@ services:
         stdin_open: true
         tty: true
         environment:
-            - DISPLAY_WIDTH=1400
-            - DISPLAY_HEIGHT=650
+            - DISPLAY_WIDTH=1800
+            - DISPLAY_HEIGHT=1050
+            - NOVNC_RESIZE=remote
             - RUN_XTERM=no
         container_name: novnc
         ports:
@@ -34,8 +35,10 @@ services:
         image: theasp/novnc:latest
         healthcheck:
             test: ["CMD", "wget", "--spider", "-q", "http://localhost:8080"]
-            interval: 1.5s
-            timeout: 1.5s
+            start_period: 10s
+            start_interval: 1.5s
+            interval: 5m
+            timeout: .5s
             retries: 3
 
 
